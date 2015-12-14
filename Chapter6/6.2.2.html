@@ -1,10 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="../lib/three.js"></script>
-        <script type="text/javascript" src="../lib/stat.js"></script>
-        
-        <script type="text/javascript">
+        <meta charset="UTF-8">
+        <script src="../lib/three.js"></script>
+        <script src="../lib/stat.js"></script>
+    </head>
+    
+    <body onload="init()">
+        <canvas id="mainCanvas" width="400px" height="300px" ></canvas>
+        <button onclick="stop()">停止</button>
+        <button onclick="continue()">继续</button>
+<!--         <button onclick="speedFaster()">加速</button>
+        <button onclick="speedSlower()">减速</button> -->
+        <!-- <span>旋转速度：</span><span id = "speed"></span> -->
+
+        <script>
             var requestAnimationFrame = window.requestAnimationFrame 
                     || window.mozRequestAnimationFrame
                     || window.webkitRequestAnimationFrame
@@ -19,8 +29,12 @@
             var id = null;
             
             var stat = null;
+
+            var speed = 0.03;
             
             function init() {
+                // document.getElementById("speed").innerHTML = speed;
+
                 stat = new Stats();
                 stat.domElement.style.position = 'absolute';
                 stat.domElement.style.right = '0px';
@@ -54,7 +68,7 @@
             function draw() {
                 stat.begin();
                 
-                mesh.rotation.y = (mesh.rotation.y + 0.01) % (Math.PI * 2);
+                mesh.rotation.y = (mesh.rotation.y + speed) % (Math.PI * 2);
                 renderer.render(scene, camera);
                 id = requestAnimationFrame(draw);
                 
@@ -67,11 +81,19 @@
                     id = null;
                 }
             }
+            function continue() {
+                if (id == null) 
+                    id = requestAnimationFrame(draw);
+            }
+            // function speedFaster() {
+            //     speed += 0.01;
+            //     document.getElementById("speed").innerHTML = speed;
+            // }
+            // function speedSlower() {
+            //     if (speed >= 0.01)
+            //         speed -= 0.01；
+            //     document.getElementById("speed").innerHTML = speed;
+            // }
         </script>
-    </head>
-    
-    <body onload="init()">
-        <canvas id="mainCanvas" width="400px" height="300px" ></canvas>
-        <button id="stopBtn" onclick="stop()">Stop</button>
     </body>
 </html>
