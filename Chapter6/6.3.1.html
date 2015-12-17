@@ -22,10 +22,10 @@
             var ballMesh = null;
             var ballRadius = 0.5;
             var isMoving = false;
-            var maxHeight = 5;
+            var maxHeight = 7;
             
             var v = 0;
-            var a = -0.01;
+            var a = -0.002;
             
             function init() {
                 stat = new Stats();
@@ -40,7 +40,7 @@
                 scene = new THREE.Scene();
                 
                 camera = new THREE.OrthographicCamera(-5, 5, 3.75, -3.75, 0.1, 100);
-                camera.position.set(5, 10, 20);
+                camera.position.set(10, 20, 40);
                 camera.lookAt(new THREE.Vector3(0, 3, 0));
                 scene.add(camera);
                 
@@ -79,10 +79,10 @@
                     
                     if (ballMesh.position.y <= ballRadius) {
                         // hit plane
-                        v = -v * 0.9;
+                        v = -v * 0.8;
                     }
                     
-                    if (Math.abs(v) < 0.001) {
+                    if ( (Math.abs(v) < 0.0000001) && (ballMesh.position.y < 1.01 * ballRadius) ) {
                         // stop moving
                         isMoving = false;
                         ballMesh.position.y = ballRadius;
@@ -106,7 +106,7 @@
             function drop() {
                 isMoving = true;
                 ballMesh.position.y = maxHeight;
-                v = 0;
+                v = -0.1;
             }
         </script>
     </head>
